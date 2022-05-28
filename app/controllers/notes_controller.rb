@@ -3,7 +3,6 @@ class NotesController < ApplicationController
     notes = Note.all
     # render json: notes, status: :ok
     render json: NoteSerializer.new(notes).serializable_hash.to_json
-    # render json: AirlineSerializer.new(airlines, options).serializable_hash.to_json
   end
 
   def create

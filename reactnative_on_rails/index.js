@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 
+
 function Index() {
   const [notes, setNotes] = useState([])
   useEffect( ()=> {

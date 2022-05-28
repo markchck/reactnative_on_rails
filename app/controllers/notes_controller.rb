@@ -11,6 +11,12 @@ class NotesController < ApplicationController
     # render json: notes, status: :ok
   end
 
+  def show
+    notes = Note.find_by(id: params[:id])
+    render json: NoteSerializer.new(notes).serializable_hash.to_json
+    # render json: notes, status: :ok
+  end
+
   private
   def note_params
     params.require(:note).permit(:text)

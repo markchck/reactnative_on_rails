@@ -6,14 +6,17 @@ import axios from 'axios';
 function Index() {
   const [notes, setNotes] = useState([])
   useEffect( ()=> {
-
-        // axios.get("/notes")
+        axios.get("http://localhost:3000/notes/")
         // http는 reactnative에서 안받아지나봄.. 아래 https는 받아지는데 http는 계속 axioserror: network error 뜸. 이건 아예 axios가 서버에 접근도 못했다는 에러임.
-        axios.get("https://jsonplaceholder.typicode.com/posts/1")
-        // axios.get("https://markchck.github.io/reactnative_on_rails/notes.json")
-        // .then(res => setNotes(JSON.stringify(res.data.title)))
-        .then(res => setNotes("hi"))
-        .catch(res => console.log(res))
+        // axios.get("https://jsonplaceholder.typicode.com/posts/1")
+        // .then(res => setNotes(JSON.stringify(res)))
+        .then(res => {
+          // alert(JSON.stringify(res))
+          setNotes(JSON.stringify(res.data))
+        })
+        .catch(res => {
+          alert(JSON.stringify(res))
+        })
       }, [notes.length]
   )
 

@@ -8,15 +8,14 @@ function Index() {
   const [notes, setNotes] = useState([])
   useEffect( ()=> {
         axios.get("http://localhost:3000/notes/")
-        // http는 reactnative에서 안받아지나봄.. 아래 https는 받아지는데 http는 계속 axioserror: network error 뜸. 이건 아예 axios가 서버에 접근도 못했다는 에러임.
+        // 안드로이드가 http는 막아놔서 웹에서는 정상 출력되는데 앱에서는 출력이 안될거임. https로 바꿔서 넣으면 출력 됨.
         // axios.get("https://jsonplaceholder.typicode.com/posts/1")
-        // .then(res => setNotes(JSON.stringify(res)))
         .then(res => {
           // alert(JSON.stringify(res))
           setNotes(JSON.stringify(res.data))
         })
         .catch(res => {
-          alert(JSON.stringify(res))
+          alert(JSON.stringify(res.data))
         })
       }, [notes.length]
   )

@@ -1,4 +1,4 @@
 class NoteSerializer
-  include FastJsonapi::ObjectSerializer
+  include JSONAPI::Serializer
   attributes :text
 end

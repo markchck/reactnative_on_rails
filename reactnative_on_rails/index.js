@@ -4,22 +4,19 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 
 function Index() {
-  const [notes, setNotes] = useState([])
+  const [notes, setNotes] = useState({})
+  // const [notes, setNotes] = useState([])
+
   useEffect( ()=> {
       axios.get("http://localhost:3000/notes")
       // 안드로이드가 http는 막아놔서 웹에서는 정상 출력되는데 앱에서는 출력이 안될거임. https로 바꿔서 넣으면 출력 됨.
       // axios.get("https://jsonplaceholder.typicode.com/posts/1")
       .then(res => {
         // setNotes(JSON.stringify((res.data.data[0].attributes.text)))
-        // console.log(res.data.data)
         setNotes((res.data.data))
-        console.log("hi")
       })
       .catch(res => {
-        console.log("what?")
-        setNotes(res)
-        // console.log(JSON.stringify(res))
-        alert(res)
+        console.log(JSON.stringify(res))
       })
     }, [notes.length]
   )
@@ -30,22 +27,37 @@ function Index() {
   //   .then((apple) => console.log(apple.title))
   //   .catch((response)=> console.log(response))
 
-  const grid = notes.map(item => {
+  //notes를 배열로 설정한 경우(Map으로 이터레이팅해야함)
+  // const grid = notes.map(item => {
+  //   console.log(item)
+  //   return(
+  //     <View style={styles.output}>
+  //       <Text> {item.attributes.text}</Text>
+  //       {/* <Text> {JSON.stringify(item)}</Text> */}
+  //     </View>
+  //   )
+  // })
+
+  //notes를 객체로 설정한 경우(object.keys로 객체의 key값을 알아내서 Map으로 이터레이팅해야함
+  const grid = Object.keys(notes).map(item => {
     return(
       <View style={styles.output}>
-        <Text> {item.id}</Text>
-        <Text> {JSON.stringify(item)}</Text>
+        <Text> {notes[item].attributes.text}</Text>
+        {/* <Text> {JSON.stringify(item)}</Text> */}
       </View>
     )
   })
 
-  // const grid = ()=>{
-  //   return(
-  //     <Text>
-  //       {notes}
-  //     </Text>
-  //   )
-  // }
+  const [text, setText] = useState("")
+  const addNote = () => {
+    axios.post('http://localhost:3000/notes',{text: text})
+    .then(res => {
+      // // console.log(res.data.data.attributes.text)
+      setNotes(notes.push({attributes: {text: text}}))
+      setText("")
+    })
+    .catch(res=> {console.log(res)})
+  }
 
   return (
       <View style={styles.container}>
@@ -61,13 +73,15 @@ function Index() {
         <View style={styles.body}>
           <View style={styles.input}>
             <TextInput 
-              placeholder='hi'
               style={styles.textInput}
+              value = {text}
+              // placeholder= "type here"
+              onChangeText = {setText}
+              onSubmitEditing = {addNote}
             />
           </View>
           <ScrollView>
             {grid}
-            {/* {notes} */}
           </ScrollView>
         </View>
       </View>
@@ -95,7 +109,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   textInput:{
-    backgroundColor: 'black'
+    backgroundColor: 'gray'
   },
   output: {
     backgroundColor: 'blue'

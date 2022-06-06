@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View, ScrollView, } from 'react-native';
 import React, { useEffect, useState } from 'react'
+import { Fontisto } from '@expo/vector-icons';
 import axios from 'axios';
 
 function Index() {
@@ -38,16 +39,6 @@ function Index() {
   //   )
   // })
 
-  //notes를 객체로 설정한 경우(object.keys로 객체의 key값을 알아내서 Map으로 이터레이팅해야함
-  const grid = Object.keys(notes).map(item => {
-    return(
-      <View style={styles.output}>
-        <Text> {notes[item].attributes.text}</Text>
-        {/* <Text> {JSON.stringify(item)}</Text> */}
-      </View>
-    )
-  })
-
   const [text, setText] = useState("")
   const addNote = () => {
     axios.post('http://localhost:3000/notes',{text: text})
@@ -59,6 +50,28 @@ function Index() {
     .catch(res=> {console.log(res)})
   }
 
+  const deleteNote = (item) =>{
+    const ok = confirm("Do you want to delete?")
+    if (ok) {
+      axios.delete(`http://localhost:3000/notes/${notes[item].id}`)
+      const newNotes = {...notes}
+      setNotes(newNotes)
+    }
+  }
+  //notes를 객체로 설정한 경우(object.keys로 객체의 key값을 알아내서 Map으로 이터레이팅해야함
+  const grid = Object.keys(notes).map(item => {
+    // console.log(notes)
+    return(
+      <View style={styles.output}>
+        <Text> {notes[item].attributes.text}</Text>
+        {/* <Text> {JSON.stringify(item)}</Text> */}
+        <TouchableOpacity onPress={()=>deleteNote(item)}>
+          <Fontisto name="trash" size={20} color="white" />
+        </TouchableOpacity>
+      </View>
+    )
+  })
+ 
   return (
       <View style={styles.container}>
         <StatusBar style="auto"/>  
@@ -109,10 +122,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   textInput:{
-    backgroundColor: 'gray'
+    backgroundColor: 'gray',
   },
   output: {
-    backgroundColor: 'blue'
+    flexDirection: 'row',
+    backgroundColor: 'blue',
+    justifyContent: 'space-between',
   }
 });
 export default Index

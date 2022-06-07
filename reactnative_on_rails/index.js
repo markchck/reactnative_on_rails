@@ -103,6 +103,7 @@ function Index() {
       axios.delete(`http://localhost:3000/notes/${notes[item].id}`)
       const newNotes = {...notes}
       setNotes(newNotes)
+      setText("")
     }
   }
   

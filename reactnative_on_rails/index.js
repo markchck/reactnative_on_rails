@@ -1,12 +1,16 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View, ScrollView, } from 'react-native';
 import React, { useEffect, useState } from 'react'
-import { Fontisto } from '@expo/vector-icons';
+import { Fontisto, AntDesign } from '@expo/vector-icons';
 import axios from 'axios';
 
 function Index() {
   const [notes, setNotes] = useState({})
   // const [notes, setNotes] = useState([])
+  const [text, setText] = useState("")
+  const [mode, setMode] = useState("post")
+  const [itemNumber, setItemNumber] = useState(null)
+
 
   useEffect( ()=> {
       axios.get("http://localhost:3000/notes")
@@ -39,15 +43,58 @@ function Index() {
   //   )
   // })
 
-  const [text, setText] = useState("")
+  let content = () => {
+    if (mode === 'post'){
+      return (
+        <View style={styles.input}>
+          <TextInput 
+            style={styles.textInput}
+            value = {text}
+            // placeholder= "type here"
+            onChangeText = {setText}
+            onSubmitEditing = {addNote}
+          />
+        </View>
+      )
+    }else if (mode === 'update'){
+      return (
+        <View style={styles.input}>
+          <TextInput 
+            style={styles.textInput}
+            value = {text}
+            // placeholder= "type here"
+            onChangeText = {setText}
+            onSubmitEditing = {changeNote}
+          />
+        </View>
+      )
+    }
+  };
+  
   const addNote = () => {
     axios.post('http://localhost:3000/notes',{text: text})
     .then(res => {
-      // // console.log(res.data.data.attributes.text)
+      // console.log(res.data.data.attributes.text)
       setNotes(notes.push({attributes: {text: text}}))
       setText("")
     })
     .catch(res=> {console.log(res)})
+  }
+
+  const changeNote =() =>{
+    // console.log(text)
+    axios.put(`http://localhost:3000/notes/${notes[itemNumber].id}`, {text: text})
+    const newNotes = {...notes}
+    setNotes(newNotes)
+    setText("")
+    setMode("post")
+  }  
+
+  const updateNote = (item) =>{
+    // console.log(notes[item].attributes.text)
+    setText(notes[item].attributes.text)
+    setMode('update')
+    setItemNumber(item)
   }
 
   const deleteNote = (item) =>{
@@ -58,14 +105,16 @@ function Index() {
       setNotes(newNotes)
     }
   }
+  
   //notes를 객체로 설정한 경우(object.keys로 객체의 key값을 알아내서 Map으로 이터레이팅해야함
   const grid = Object.keys(notes).map(item => {
-    // console.log(notes)
     return(
       <View style={styles.output}>
         <Text> {notes[item].attributes.text}</Text>
-        {/* <Text> {JSON.stringify(item)}</Text> */}
-        <TouchableOpacity onPress={()=>deleteNote(item)}>
+        <TouchableOpacity style={styles.editButton} onPress={()=>updateNote(item)}>
+          <AntDesign name="edit" size={24} color="white" />
+        </TouchableOpacity>
+        <TouchableOpacity style = {styles.trashButton} onPress={()=>deleteNote(item)}>
           <Fontisto name="trash" size={20} color="white" />
         </TouchableOpacity>
       </View>
@@ -73,32 +122,24 @@ function Index() {
   })
  
   return (
-      <View style={styles.container}>
-        <StatusBar style="auto"/>  
-        <View style={styles.header}>
-          <TouchableOpacity>
-            <Text>work</Text>
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <Text>travel</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.body}>
-          <View style={styles.input}>
-            <TextInput 
-              style={styles.textInput}
-              value = {text}
-              // placeholder= "type here"
-              onChangeText = {setText}
-              onSubmitEditing = {addNote}
-            />
-          </View>
-          <ScrollView>
-            {grid}
-          </ScrollView>
-        </View>
+    <View style={styles.container}>
+      <StatusBar style="auto"/>  
+      <View style={styles.header}>
+        <TouchableOpacity>
+          <Text>work</Text>
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Text>travel</Text>
+        </TouchableOpacity>
       </View>
-  );
+      <View style={styles.body}>
+        {content()}
+        <ScrollView>
+          {grid}
+        </ScrollView>
+      </View>
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
@@ -127,7 +168,15 @@ const styles = StyleSheet.create({
   output: {
     flexDirection: 'row',
     backgroundColor: 'blue',
-    justifyContent: 'space-between',
-  }
+    height: 25,
+  },
+  trashButton:{
+    position: 'absolute',
+    right: 0
+  },
+  editButton: {
+    position: 'absolute',
+    right: 25
+  },
 });
 export default Index

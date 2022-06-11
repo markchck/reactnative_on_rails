@@ -3,8 +3,8 @@ class Api::V1::NotesController < ApplicationController
   def index
     notes = Note.all
     # render json: notes, status: :ok
-    # render json: NoteSerializer.new(notes).serializable_hash.to_json
     render json: NoteSerializer.new(notes).serializable_hash.to_json
+    
   end
   
   def show

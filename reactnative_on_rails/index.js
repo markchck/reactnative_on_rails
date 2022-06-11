@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   textInput:{
-    backgroundColor: 'gray',
+    backgroundColor: 'red',
   },
   output: {
     flexDirection: 'row',

@@ -4,6 +4,8 @@ import React, { useEffect, useState } from 'react'
 import { Fontisto, AntDesign } from '@expo/vector-icons';
 import axios from 'axios';
 
+const API_URL = "http://localhost:3000/api/v1/"
+
 function Index() {
   const [notes, setNotes] = useState({})
   // const [notes, setNotes] = useState([])
@@ -13,7 +15,7 @@ function Index() {
 
 
   useEffect( ()=> {
-      axios.get("http://localhost:3000/notes")
+      axios.get(`${API_URL}/notes`)
       // 안드로이드가 http는 막아놔서 웹에서는 정상 출력되는데 앱에서는 출력이 안될거임. https로 바꿔서 넣으면 출력 됨.
       // axios.get("https://jsonplaceholder.typicode.com/posts/1")
       .then(res => {
@@ -72,7 +74,7 @@ function Index() {
   };
   
   const addNote = () => {
-    axios.post('http://localhost:3000/notes',{text: text})
+    axios.post(`${API_URL}/notes`,{text: text})
     .then(res => {
       // console.log(res.data.data.attributes.text)
       setNotes(notes.push({attributes: {text: text}}))
@@ -83,7 +85,7 @@ function Index() {
 
   const changeNote =() =>{
     // console.log(text)
-    axios.put(`http://localhost:3000/notes/${notes[itemNumber].id}`, {text: text})
+    axios.put(`${API_URL}/notes/${notes[itemNumber].id}`, {text: text})
     const newNotes = {...notes}
     setNotes(newNotes)
     setText("")
@@ -100,7 +102,7 @@ function Index() {
   const deleteNote = (item) =>{
     const ok = confirm("Do you want to delete?")
     if (ok) {
-      axios.delete(`http://localhost:3000/notes/${notes[item].id}`)
+      axios.delete(`${API_URL}/notes/${notes[item].id}`)
       const newNotes = {...notes}
       setNotes(newNotes)
       setText("")

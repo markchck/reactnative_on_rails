@@ -1,11 +1,11 @@
 {
   "files": {
-    "app.js": "/reactnative_on_rails/static/js/app.4ffa5d91.chunk.js",
-    "app.js.map": "/reactnative_on_rails/static/js/app.4ffa5d91.chunk.js.map",
+    "app.js": "/reactnative_on_rails/static/js/app.89dbeb2f.chunk.js",
+    "app.js.map": "/reactnative_on_rails/static/js/app.89dbeb2f.chunk.js.map",
     "runtime~app.js": "/reactnative_on_rails/static/js/runtime~app.5649f303.js",
     "runtime~app.js.map": "/reactnative_on_rails/static/js/runtime~app.5649f303.js.map",
-    "static/js/2.c58cfec4.chunk.js": "/reactnative_on_rails/static/js/2.c58cfec4.chunk.js",
-    "static/js/2.c58cfec4.chunk.js.map": "/reactnative_on_rails/static/js/2.c58cfec4.chunk.js.map",
+    "static/js/2.20701267.chunk.js": "/reactnative_on_rails/static/js/2.20701267.chunk.js",
+    "static/js/2.20701267.chunk.js.map": "/reactnative_on_rails/static/js/2.20701267.chunk.js.map",
     "fonts/AntDesign.ttf": "/reactnative_on_rails/./fonts/AntDesign.ttf",
     "fonts/Entypo.ttf": "/reactnative_on_rails/./fonts/Entypo.ttf",
     "fonts/Feather.ttf": "/reactnative_on_rails/./fonts/Feather.ttf",
@@ -24,11 +24,11 @@
     "index.html": "/reactnative_on_rails/index.html",
     "manifest.json": "/reactnative_on_rails/manifest.json",
     "serve.json": "/reactnative_on_rails/serve.json",
-    "static/js/2.c58cfec4.chunk.js.LICENSE.txt": "/reactnative_on_rails/static/js/2.c58cfec4.chunk.js.LICENSE.txt"
+    "static/js/2.20701267.chunk.js.LICENSE.txt": "/reactnative_on_rails/static/js/2.20701267.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime~app.5649f303.js",
-    "static/js/2.c58cfec4.chunk.js",
-    "static/js/app.4ffa5d91.chunk.js"
+    "static/js/2.20701267.chunk.js",
+    "static/js/app.89dbeb2f.chunk.js"
   ]
 }
